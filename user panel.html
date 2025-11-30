@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Size Studio - Downloads</title>
+
+<style>
+body {
+  background: #0f0f0f;
+  color: white;
+  font-family: Poppins, sans-serif;
+  padding: 10px;
+}
+.header {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+.card {
+  background: #1a1a1a;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #000;
+}
+.card img {
+  width: 100%;
+  border-radius: 12px;
+}
+button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #ff3e3e;
+  color: #fff;
+  font-size: 18px;
+  margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">Size Studio • Apps</div>
+<div id="dataArea"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+
+<script>
+// --------- Firebase Setup (YOUR CONFIG ADDED) ----------
+const firebaseConfig = {
+  apiKey: "AIzaSyA0mlePdyAhRzhYwWXSlNiCVT25-Jbt4X0",
+  authDomain: "fir-51980.firebaseapp.com",
+  databaseURL: "https://fir-51980-default-rtdb.firebaseio.com",
+  projectId: "fir-51980",
+  storageBucket: "fir-51980.firebasestorage.app",
+  messagingSenderId: "239509734864",
+  appId: "1:239509734864:web:583a1c32d77652994825d5"
+};
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.database();
+
+// --------- Load Apps ----------
+db.ref("apps").on("value", snap => {
+  let data = snap.val();
+  let html = "";
+
+  for (let id in data) {
+    html += `
+      <div class="card">
+        <img src="${data[id].img}">
+        <h3>${data[id].name}</h3>
+        <p>${data[id].desc}</p>
+        <a href="${data[id].link}">
+          <button>Download</button>
+        </a>
+      </div>
+    `;
+  }
+
+  document.getElementById("dataArea").innerHTML = html;
+});
+</script>
+</body>
+</html>
